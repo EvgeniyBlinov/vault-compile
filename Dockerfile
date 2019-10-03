@@ -2,9 +2,16 @@
 FROM golang:latest
 
 RUN set -ex \
-	&& mkdir -p $GOPATH/src/github.com/hashicorp && cd $_ \
-	&& git clone https://github.com/hashicorp/vault.git \
-	&& cd vault \
+	&& mkdir -p $GOPATH/src/github.com/hashicorp \
+	&& cd $GOPATH/src/github.com/hashicorp \
+	&& git clone https://github.com/hashicorp/vault.git
+
+ARG VAULT_VERSION=master
+ENV VAULT_VERSION ${VAULT_VERSION}
+
+RUN set -ex; \
+	cd $GOPATH/src/github.com/hashicorp/vault \
+	&& git checkout ${VAULT_VERSION} \
 	&& make bootstrap \
 	&& make dev
 

@@ -10,6 +10,7 @@ CURRENT_DIR ?= $(shell readlink -m $(CURDIR))
 SUDO ?= sudo
 DOCKER ?= docker
 DOCKER_COMPOSE ?= docker-compose
+VAULT_VERSION ?= master
 ########################################################################
 # Default variables
 ########################################################################
@@ -18,7 +19,9 @@ export
 ########################################################################
 
 build:
-	$(SUDO) $(DOCKER) build -t vault:latest .
+	$(SUDO) $(DOCKER) build  \
+		--build-arg VAULT_VERSION=$(VAULT_VERSION) \
+		-t vault:latest .
 
 .PHONY: copy
 copy:
